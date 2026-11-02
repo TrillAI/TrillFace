@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="puppet_bg">#FF0E0E12</color>
+    <color name="puppet_scrim">#B3000000</color>
+    <color name="puppet_accent">#FFFF4D6D</color>
+    <color name="puppet_text">#FFF3F3F6</color>
+    <color name="launcher_bg">#FF15151C</color>
+</resources>

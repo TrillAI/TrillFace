@@ -1,0 +1,14 @@
+# Gradle / Android build output
+.gradle/
+build/
+app/build/
+local.properties
+captures/
+*.hprof
+*.iml
+.idea/
+.DS_Store
+
+# MediaPipe assets are fetched by `./gradlew downloadModelAssets` (see app/build.gradle.kts)
+app/src/main/assets/face_landmarker.task
+app/src/main/assets/canonical_face_model.obj

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Face Puppet</string>
+    <string name="choose_photo">Choose photo</string>
+    <string name="record">Record</string>
+    <string name="stop">Stop</string>
+    <string name="snapshot">Snapshot</string>
+    <string name="recenter">Recenter</string>
+    <string name="hint_center_face">Center your face in the frame, then pick a photo.</string>
+    <string name="hint_no_face_live">Show your face to the camera to bring the puppet to life.</string>
+    <string name="error_no_face_in_photo">No face found in that photo.</string>
+    <string name="error_photo_load">Could not read that photo.</string>
+    <string name="error_camera_permission">Camera permission is needed to animate the puppet.</string>
+    <string name="permission_retry">Grant camera</string>
+    <string name="permission_settings">Open settings</string>
+    <string name="error_model">Face model failed to load on this device.</string>
+    <string name="error_camera">Camera unavailable.</string>
+    <string name="saved_snapshot">Snapshot saved to %1$s</string>
+    <string name="saved_video">Video saved to %1$s</string>
+    <string name="error_save">Could not save the file.</string>
+    <string name="error_record_start">Recording is not supported at this size on this device.</string>
+    <string name="recording_started">Recording…</string>
+    <string name="snapshot_busy">Hold still…</string>
+    <string name="a11y_record">Start or stop recording</string>
+    <string name="a11y_snapshot">Save a snapshot</string>
+    <string name="a11y_recenter">Re-solve the photo registration</string>
+    <string name="a11y_choose_photo">Pick a photo of a face to use as the puppet</string>
+    <string name="fps_format">%1$.0f fps</string>
+</resources>
