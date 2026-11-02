@@ -529,8 +529,12 @@ class MainActivity : ComponentActivity() {
                 )
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.attributes.layoutInDisplayCutoutMode =
+            // `window.attributes` hands back a copy: mutate it and write it back, or the cutout
+            // mode is silently dropped.
+            val attributes = window.attributes
+            attributes.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            window.attributes = attributes
         }
     }
 
