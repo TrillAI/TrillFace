@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Puppet head -->
+    <path
+        android:fillColor="#FFEFE7D8"
+        android:pathData="M54,26c14.9,0 27,11.6 27,26 0,14.4 -12.1,26 -27,26 -14.9,0 -27,-11.6 -27,-26 0,-14.4 12.1,-26 27,-26z" />
+    <!-- Eyes -->
+    <path
+        android:fillColor="#FF15151C"
+        android:pathData="M43,46m-4,0a4,4 0 1,0 8,0a4,4 0 1,0 -8,0" />
+    <path
+        android:fillColor="#FF15151C"
+        android:pathData="M65,46m-4,0a4,4 0 1,0 8,0a4,4 0 1,0 -8,0" />
+    <!-- Jaw / mouth -->
+    <path
+        android:fillColor="#FFFF4D6D"
+        android:pathData="M40,62c4.6,7.4 23.4,7.4 28,0 -4.6,3 -23.4,3 -28,0z" />
+    <!-- Strings -->
+    <path
+        android:strokeColor="#FFB9B2A2"
+        android:strokeWidth="1.6"
+        android:pathData="M54,26 L54,12 M40,30 L30,18 M68,30 L78,18" />
+</vector>
