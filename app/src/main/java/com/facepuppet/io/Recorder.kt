@@ -353,38 +353,54 @@ class Recorder(private val context: Context) {
  * EGL config chooser that guarantees an 8-bit stencil buffer (the mouth and eye layers are stencil
  * clipped, so without a stencil buffer the layers would spill over the whole face).
  *
- * The chosen config is reused by [Recorder] to create the encoder surface in the same context.
+ * It goes through the `EGL10` handle GLSurfaceView passes in — that display is guaranteed to be
+ * initialised by the time the chooser runs, whereas a fresh `EGL14.eglGetDisplay()` is not. The
+ * returned object is the platform's `EGLConfigImpl`, which extends `android.opengl.EGLConfig` as
+ * well, so the same config can be handed to [Recorder] for the encoder surface.
  */
 class StencilConfigChooser : GLSurfaceView.EGLConfigChooser {
 
+    /** The same config, typed for `EGL14.eglCreateWindowSurface` (null if the platform is exotic). */
     @Volatile
     var config: EGLConfig? = null
         private set
 
     override fun chooseConfig(egl: EGL10?, display: EGLDisplay?): javax.microedition.khronos.egl.EGLConfig {
-        val display14 = EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY)
+        requireNotNull(egl) { "EGL10 handle missing" }
+        requireNotNull(display) { "EGL display missing" }
         val attribs = intArrayOf(
-            EGL14.EGL_RED_SIZE, 8,
-            EGL14.EGL_GREEN_SIZE, 8,
-            EGL14.EGL_BLUE_SIZE, 8,
-            EGL14.EGL_ALPHA_SIZE, 8,
-            EGL14.EGL_DEPTH_SIZE, 24,
-            EGL14.EGL_STENCIL_SIZE, 8,
-            EGL14.EGL_RENDERABLE_TYPE, EGLExt.EGL_OPENGL_ES3_BIT_KHR,
-            EGL14.EGL_NONE,
+            EGL10.EGL_RED_SIZE, 8,
+            EGL10.EGL_GREEN_SIZE, 8,
+            EGL10.EGL_BLUE_SIZE, 8,
+            EGL10.EGL_ALPHA_SIZE, 8,
+            EGL10.EGL_DEPTH_SIZE, 24,
+            EGL10.EGL_STENCIL_SIZE, 8,
+            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT_KHR,
+            EGL10.EGL_NONE,
         )
-        val configs = arrayOfNulls<EGLConfig>(1)
+        val configs = arrayOfNulls<javax.microedition.khronos.egl.EGLConfig>(1)
         val count = IntArray(1)
-        val ok = EGL14.eglChooseConfig(display14, attribs, 0, configs, 0, 1, count, 0)
-        if (!ok || count[0] < 1 || configs[0] == null) {
+        if (!egl.eglChooseConfig(display, attribs, configs, 0, 1, count) || count[0] < 1) {
             throw IllegalArgumentException(
                 "this device has no EGL config with RGBA8888 + depth24 + stencil8 + ES3",
             )
         }
-        val chosen = configs[0]!!
-        config = chosen
-        @Suppress("UNCHECKED_CAST")
-        return chosen as javax.microedition.khronos.egl.EGLConfig
+        val chosen = requireNotNull(configs[0]) { "EGL returned a null config" }
+        config = try {
+            chosen as EGLConfig
+        } catch (error: Throwable) {
+            Log.w(TAG_CHOOSER, "config is not an android.opengl.EGLConfig; recording disabled", error)
+            null
+        }
+        return chosen
+    }
+
+    private companion object {
+        const val TAG_CHOOSER = "StencilConfigChooser"
+
+        /** `EGL_RENDERABLE_TYPE`, which the legacy `EGL10` interface does not declare. */
+        const val EGL_RENDERABLE_TYPE = 0x3040
+        const val EGL_OPENGL_ES3_BIT_KHR = 0x0040
     }
 }
 
